@@ -1,0 +1,39 @@
+[project]
+name = "decorators-demo-bot"
+version = "0.1.0"
+requires-python = "==3.11.*"
+dependencies = [
+    "aiogram>=3.4,<4.0",
+    "python-dotenv>=1.0",
+]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "F",
+    "E",
+    "B",
+]
+ignore = [
+    "E501",
+    "I001",
+    "D",
+    "ANN",
+    "B904",
+]
+
+[tool.basedpyright]
+pythonVersion = "3.11"
+typeCheckingMode = "standard"
+reportOptionalMemberAccess = false
+reportAttributeAccessIssue = false
+include = ["**/*.py"]
+exclude = [".venv", "**/__pycache__"]
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.38.2",
+]

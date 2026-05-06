@@ -1,0 +1,17 @@
+{
+  "python.analysis.diagnosticMode": "workspace",
+  "basedpyright.analysis.diagnosticMode": "workspace",
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "editor.formatOnSave": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 50,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    ".venv": true,
+    ".pytest_cache": true
+  }
+}
