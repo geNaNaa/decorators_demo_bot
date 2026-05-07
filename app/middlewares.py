@@ -68,8 +68,9 @@ class LoggingMiddleware(BaseMiddleware):
 
 from os import getenv
 
+
 ALLOWED_USERS: frozenset[int] = frozenset(
-    # тут "generator expression" для получения id из строки ALLOWED_USER_IDS
+    [int(i.strip()) for i in getenv("ALLOWED_USER_IDS", "").split(",")]
 )
 
 
@@ -80,9 +81,10 @@ class AllowedUsersMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: dict[str, Any],
     ) -> Any:
-        #TODO: допиши логику проверки!
-        # Шаг 1: достань пользователя из data
-        # Шаг 2: user allowed или нет?
-        # Шаг 3: залогируй отказ не allowed
-        # Шаг 4: что возвращаем?
-        pass
+
+        user = data.get("event_from_user")
+        if user and user.id in ALLOWED_USERS:
+            return await handler(event, data)
+        else:
+            logger.info("Юзер непонятная чмоня %s", user.id if user else None)
+            return

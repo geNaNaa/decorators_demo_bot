@@ -20,8 +20,9 @@ async def main() -> None:
     dp.callback_query.middleware(LoggingMiddleware())
 
     # TODO (задание): раскомментируй после реализации AllowedUsersMiddleware
-    # from app.middlewares import AllowedUsersMiddleware
-    # dp.update.outer_middleware(AllowedUsersMiddleware())
+    from app.middlewares import AllowedUsersMiddleware
+
+    dp.update.outer_middleware(AllowedUsersMiddleware())
 
     # ── Роутеры ──────────────────────────────────────────────────────
     # Каждый роутер — отдельный файл со своими хэндлерами.
