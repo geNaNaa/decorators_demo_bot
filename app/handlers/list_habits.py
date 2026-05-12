@@ -2,26 +2,26 @@ from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import CallbackQuery, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-
+from app.filters import HasHabits
 from app import storage
 
 router = Router()
 
 
 # ─── ДЕКОРАТОР: @router.message(Command("list")) ────────────────────
-@router.message(Command("list"))
+@router.message(Command("list"), HasHabits())
 async def cmd_list(message: Message) -> None:
     habits = storage.get_habits(message.from_user.id)
-    if not habits:
-        await message.answer("У тебя пока нет привычек. Добавь через /add")
-        return
-
     builder = InlineKeyboardBuilder()
     for habit_id, habit in habits.items():
         builder.button(text=f"Done: {habit['name']}", callback_data=f"done:{habit_id}")
     builder.adjust(1)  # по одной кнопке в ряд
 
     await message.answer("Нажми кнопку, чтобы отметить привычку:", reply_markup=builder.as_markup())
+
+@router.message(Command("list"))
+async def cmd_list_empty(message: Message) -> None:
+    await message.answer("У тебя пока нет привычек. Добавь через /add")
 
 
 # ─── ДЕКОРАТОР: @router.callback_query(F.data.startswith("done:")) ──
